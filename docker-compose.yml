@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  bind9:
+    image: internetsystemsconsortium/bind9:9.18
+    container_name: bind9
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - ./config/named.conf:/etc/bind/named.conf
+      - ./config/named.conf.local:/etc/bind/named.conf.local
+      - ./config/named.conf.options:/etc/bind/named.conf.options
+      - ./zones:/etc/bind/zones
+      - ./data:/var/cache/bind
+    restart: always
+    networks:
+      - bind_network
+
+networks:
+  bind_network:
+    driver: bridge
